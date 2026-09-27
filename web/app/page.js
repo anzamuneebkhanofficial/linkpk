@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const [data, setData] = useState([]);
@@ -14,7 +14,9 @@ export default function Home() {
     setData(data);
     console.log(data);
   };
-  getData();
+  useEffect(() => {
+    getData();
+  }, []); // [] = run only once on mount, never again
   return (
     <div >
       <main >
