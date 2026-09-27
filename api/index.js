@@ -1,4 +1,5 @@
 import express from "express";
+import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import cors from "cors";
 dotenv.config();
@@ -21,6 +22,11 @@ app.get("/", (req, res) => {
 app.get("/api", (req, res) => {
     res.json({ url: process.env.FRONTURL });
 });
-app.listen(PORT, () => {
-    console.log(`Server started on port ${PORT}`);
-});
+// Local dev only — Vercel uses the exported app, not app.listen()
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+    app.listen(PORT, () => {
+        console.log(`Server started on port ${PORT}`);
+    });
+}
+
+export default app;
