@@ -3,7 +3,7 @@ import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import cors from "cors";
 dotenv.config();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.set("trust proxy", 1);
@@ -22,7 +22,8 @@ app.get("/", (req, res) => {
 app.get("/api", (req, res) => {
     res.json({ url: process.env.FRONTURL });
 });
-// Local dev only — Vercel uses the exported app, not app.listen()
+// LOCAL + RENDER: app.listen() runs when file is executed directly (node index.js)
+// VERCEL: Vercel imports this file as a module — listen() is skipped, export default is used
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
     app.listen(PORT, () => {
         console.log(`Server started on port ${PORT}`);
